@@ -7,13 +7,16 @@ doc: ${PKGNAME}.cls ${PKGNAME}.pdf
 ${PKGNAME}: ${PKGNAME}.cls ${PKGNAME}.sty
 
 ${PKGNAME}.cls: ${PKGNAME}.dtx ${PKGNAME}.ins
+	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
 	tex ${TEXFLAGS} ${PKGNAME}.ins
 
 ${PKGNAME}.sty: ${PKGNAME}.dtx ${PKGNAME}.ins
+	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
 	tex ${TEXFLAGS} ${PKGNAME}.ins
 
 ${PKGNAME}.pdf: ${PKGNAME}.dtx ${PKGNAME}.ins
 	latexmk ${LATEXMKFLAGS} ${PKGNAME}.dtx
+	@touch ${PKGNAME}.pdf
 
 clean:
 	rm -f *.cls *.sty *.pdf
