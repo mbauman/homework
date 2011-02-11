@@ -23,7 +23,7 @@
 %<class>\ProvidesClass{homework}
 %<package>\ProvidesPackage{homework}
 %<*class|package>
-    [2011/02/11 v0.1 .dtx for homework]
+    [2011/02/11 v0.1 by Matthew J. Bauman]
 %</class|package>
 %
 %<*driver>
@@ -92,21 +92,9 @@
 %
 % \section{The \Lpack{homework} class}
 %
-% \subsection{Usage}
+% \subsection{Options}
 %
-% Put text here.
-%
-% \DescribeMacro{\dummyMacro}
-% This macro does nothing.\index{doing nothing|usage} It is merely an
-% example.  If this were a real macro, you would put a paragraph here
-% describing what the macro is supposed to do, what its mandatory and
-% optional arguments are, and so forth.
-%
-% \DescribeEnv{dummyEnv}
-% This environment does nothing.  It is merely an example.
-% If this were a real environment, you would put a paragraph here
-% describing what the environment is supposed to do, what its
-% mandatory and optional arguments are, and so forth.
+% \subsection{Commands}
 %
 % \StopEventually{\PrintChanges\PrintIndex}
 %
@@ -118,96 +106,189 @@
 % For simplicity, we'll derive everything from the standard |article|
 % class.
 %    \begin{macrocode}
-\LoadClassWithOptions{article}
-%    \end{macrocode}
+
 %
-% \begin{macro}{\dummyMacro}
-% This is a dummy macro.  If it did anything, we'd describe its
-% implementation here.
-%    \begin{macrocode}
-\newcommand{\dummyMacro}{}
-%    \end{macrocode}
-% \end{macro}
+% Load fixes first thing
 %
-% \begin{environment}{dummyEnv}
-% This is a dummy environment.  If it did anything, we'd describe its
-% implementation here.
-%    \begin{macrocode}
-\newenvironment{dummyEnv}{%
-}{%
-%    \end{macrocode}
-% \changes{v1.0a}{2004/11/05}{Added a spurious change log entry to
-%   show what a change \emph{within} an environment definition looks
-%   like.}
-% Don't use |%| to introduce a code comment within a |macrocode|
-% environment.  Instead, you should typeset all of your comments with
-% \LaTeX---doing so gives much prettier results.  For comments within a
-% macro/environment body, just do an |\end{macrocode}|, include some
-% commentary, and do another |\begin{macrocode}|.  It's that simple.
-%    \begin{macrocode}
+
+\RequirePackage{fix-cm}
+% \RequirePackage{fix-rsfs}
+\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
+\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
+   <-6> rsfs5
+   <6-8> rsfs7
+   <8-> rsfs10
+}{}
+
+%
+% Packages required for this class file
+%
+
+\RequirePackage{etoolbox}
+
+% 
+% Option handling
+% 
+
+% Screen or print options and sidedness conglomerates
+\newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
+\newtoggle{hw@print}
+\DeclareOption{print}{\toggletrue{hw@print}   \hw@sidedness{two}}
+\DeclareOption{screen}{\togglefalse{hw@print} \hw@sidedness{one}}
+\DeclareOption{oneside}{\hw@sidedness{one}}
+\DeclareOption{twoside}{\hw@sidedness{two}}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+
+\ExecuteOptions{11pt,screen}
+\ProcessOptions\relax
+
+\LoadClass[\hw@side]{article}
+
+%
+% Document sectioning - hack article.cls' \@sect
+%
+\let\@@sect\@sect
+
+\def\@sect#1#2#3#4#5#6[#7]#8{ %
+  \hw@sectsplit{#1}{{#2}{#3}{#4}{#5}{#6}}[#7||]{#8}
 }
-%    \end{macrocode}
-% \end{environment}
+
+\def\hw@sectsplit#1#2[#3|#4|#5]#6{ %
+  \ifcsundef{hw@theorig#1}
+    {\expandafter\edef\csname hw@theorig#1\endcsname %
+      {\expandafter\expandonce\csname the#1\endcsname}}
+    {\relax}
+  \ifstrempty{#4#5}
+  {
+    % No pipe in original input -- just restore \the#1 and behave normally
+    \expandafter\edef\csname the#1\endcsname %
+      {\expandafter\noexpand\csname hw@theorig#1\endcsname}
+    \@@sect{#1}#2[{#3}]{#6}
+  }
+  {
+    \expandafter\edef\csname the#1\endcsname{#3}
+    \ifstrempty{#4}
+      {\@@sect{#1}#2[{#6}]{#6}}
+      {\@@sect{#1}#2[{#4}]{#6}}
+  }
+}
+
 %
-% \Finale
+% Document titling
+%
+\newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
+\newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
+\title{\textbf{\@hwClass:} \@hwTitle}
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 %</class>
-%<*package>
 %    \end{macrocode}
 % \section{The \Lpack{homework} package}
 %
 % Put text here.
 %
-% \subsection{Usage}
-%
-% Put text here.
-%
-% \DescribeMacro{\dummyMacro}
-% This macro does nothing.\index{doing nothing|usage} It is merely an
-% example.  If this were a real macro, you would put a paragraph here
-% describing what the macro is supposed to do, what its mandatory and
-% optional arguments are, and so forth.
-%
-% \DescribeEnv{dummyEnv}
-% This environment does nothing.  It is merely an example.
-% If this were a real environment, you would put a paragraph here
-% describing what the environment is supposed to do, what its
-% mandatory and optional arguments are, and so forth.
 %
 % \StopEventually{}
 %
 % \subsection{Implementation}
 %
-% \begin{macro}{\dummyMacro}
-% This is a dummy macro.  If it did anything, we'd describe its
-% implementation here.
 %    \begin{macrocode}
-\newcommand{\dummyMacro}{}
+%<*package>
 %    \end{macrocode}
-% \end{macro}
-%
-% \begin{environment}{dummyEnv}
-% This is a dummy environment.  If it did anything, we'd describe its
-% implementation here.
+% Here follows the source:
 %    \begin{macrocode}
-\newenvironment{dummyEnv}{%
-}{%
+\usepackage{fixltx2e}
+% Use utf-8 encoding for foreign characters
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[scaled=.86]{beramono}
+\usepackage{textcomp}
+% Use microtype, but with half the expansion and protruding punctuation
+\usepackage[stretch=10,protrusion=true]{microtype}
+
+% Math stuffs
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{dsfont} % \mathds{R} for reals, etc
+\usepackage{mathrsfs} % \mathscr for scripts
+\usepackage{xfrac} % \sfrac{1}{2} for slanted fractions
+\usepackage{empheq}
+\newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
+\sch@swap{\theta}{\vartheta}
+\sch@swap{\phi}{\varphi}
+\sch@swap{\epsilon}{\varepsilon}
+
+% Graphics and colors
+\usepackage[svgnames]{xcolor}
+\usepackage{graphicx}
+
+% amazing unit rendering with si{\micro{}A/cm^2}, SI{3}{\meters\per\second}
+\usepackage{siunitx}
+\sisetup{per-mode = symbol} % use units in 'm/s' format
+% And good chemical formula rendering
+\usepackage[version=3]{mhchem}
+
+% Figure handling
+\usepackage{float}    % Allow "unfloating" with the H placement specifier
+\usepackage{wrapfig}
+% \floatstyle{boxed} 
+% \restylefloat{figure}
+\usepackage[small,labelfont=bf]{caption}
+% \DeclareCaptionFont{singlespacing}{\setstretch{1}}
+% \captionsetup{font=singlespacing}
+
+\usepackage{placeins} % Allow \FloatBarrier
+
+% Package for including code in the document
+\usepackage{listings}
+% For faster processing, load Matlab syntax for listings
+\lstloadlanguages{Matlab}
+\newcommand*{\matlabuserfunctions}[1]{
+  \lstset{language=Matlab, morekeywords=[3]{#1}} }
+\lstset{language=Matlab,
+        frame=single,
+        basicstyle=\footnotesize\ttfamily,
+        keywordstyle=[1]\color{Blue}\bfseries,
+        keywordstyle=[2]\color{Purple},
+        keywordstyle=[3]\color{Blue}\underbar,
+        identifierstyle=,
+        commentstyle=\footnotesize\ttfamily\itshape\color{Green},
+        stringstyle=\color{Purple},
+        showstringspaces=false,
+        tabsize=5,
+        % Put standard MATLAB functions not included in the default
+        % language here
+        morekeywords={xlim,ylim,var,alpha,factorial,poissrnd,normpdf,normcdf},
+        % Put MATLAB function parameters here
+        morekeywords=[2]{on, off, interp},
+        % Put user defined functions here
+        % morekeywords=[3]{},
+        morecomment=[l][\color{Blue}]{...},
+        numbers=left,
+        firstnumber=1,
+        numberstyle=\footnotesize\color{Blue},
+        stepnumber=5
+        }
+\newcommand*{\matlabscript}[2]
+  {\begin{itemize}\item[]\lstinputlisting[caption={\texttt{#1.m}. #2},label={lst:#1}]{#1.m}\end{itemize}}
+
+\usepackage[marginpar]{todo}
+
+% \iftoggle{hw@print}
+%   {\usepackage{hyperref}}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
+
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.4} 
 %    \end{macrocode}
-% \changes{v1.0a}{2004/11/05}{Added a spurious change log entry to
-%   show what a change \emph{within} an environment definition looks
-%   like.}
-% Don't use |%| to introduce a code comment within a |macrocode|
-% environment.  Instead, you should typeset all of your comments with
-% \LaTeX---doing so gives much prettier results.  For comments within a
-% macro/environment body, just do an |\end{macrocode}|, include some
-% commentary, and do another |\begin{macrocode}|.  It's that simple.
-%    \begin{macrocode}
-}
-%    \end{macrocode}
-% \end{environment}
-%
-% \Finale
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
+%
+% \Finale
 \endinput
