@@ -2,8 +2,8 @@ PKGNAME:=homework
 TEXFLAGS:=-interaction=batchmode
 LATEXMKFLAGS:=-pdf -silent
 
-all: ${PKGNAME}.cls ${PKGNAME}.sty ${PKGNAME}.pdf
-doc: ${PKGNAME}.cls ${PKGNAME}.pdf
+all: ${PKGNAME} doc
+doc: ${PKGNAME}.pdf
 ${PKGNAME}: ${PKGNAME}.cls ${PKGNAME}.sty
 
 ${PKGNAME}.cls: ${PKGNAME}.dtx ${PKGNAME}.ins
@@ -14,7 +14,7 @@ ${PKGNAME}.sty: ${PKGNAME}.dtx ${PKGNAME}.ins
 	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
 	tex ${TEXFLAGS} ${PKGNAME}.ins
 
-${PKGNAME}.pdf: ${PKGNAME}.dtx ${PKGNAME}.ins
+${PKGNAME}.pdf: ${PKGNAME}.cls ${PKGNAME}.dtx ${PKGNAME}.ins
 	latexmk ${LATEXMKFLAGS} ${PKGNAME}.dtx
 	@touch ${PKGNAME}.pdf
 
