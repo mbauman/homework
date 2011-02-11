@@ -1,0 +1,98 @@
+%%
+%% This is file `homework.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% homework.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2011 by Matt Bauman <mbauman@gmail.com>
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.2 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of LaTeX version
+%% 1999/12/01 or later.
+%% 
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{homework}
+    [2011/02/11 v0.1 by Matthew J. Bauman]
+\usepackage{fixltx2e}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[scaled=.86]{beramono}
+\usepackage{textcomp}
+\usepackage[stretch=10,protrusion=true]{microtype}
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{dsfont} % \mathds{R} for reals, etc
+\usepackage{mathrsfs} % \mathscr for scripts
+\usepackage{xfrac} % \sfrac{1}{2} for slanted fractions
+\usepackage{empheq}
+\newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
+\sch@swap{\theta}{\vartheta}
+\sch@swap{\phi}{\varphi}
+\sch@swap{\epsilon}{\varepsilon}
+
+\usepackage[svgnames]{xcolor}
+\usepackage{graphicx}
+
+\usepackage{siunitx}
+\sisetup{per-mode = symbol} % use units in 'm/s' format
+\usepackage[version=3]{mhchem}
+
+\usepackage{float}    % Allow "unfloating" with the H placement specifier
+\usepackage{wrapfig}
+\usepackage[small,labelfont=bf]{caption}
+
+\usepackage{placeins} % Allow \FloatBarrier
+
+\usepackage{listings}
+\lstloadlanguages{Matlab}
+\newcommand*{\matlabuserfunctions}[1]{
+  \lstset{language=Matlab, morekeywords=[3]{#1}} }
+\lstset{language=Matlab,
+        frame=single,
+        basicstyle=\footnotesize\ttfamily,
+        keywordstyle=[1]\color{Blue}\bfseries,
+        keywordstyle=[2]\color{Purple},
+        keywordstyle=[3]\color{Blue}\underbar,
+        identifierstyle=,
+        commentstyle=\footnotesize\ttfamily\itshape\color{Green},
+        stringstyle=\color{Purple},
+        showstringspaces=false,
+        tabsize=5,
+        % Put standard MATLAB functions not included in the default
+        % language here
+        morekeywords={xlim,ylim,var,alpha,factorial,poissrnd,normpdf,normcdf},
+        % Put MATLAB function parameters here
+        morekeywords=[2]{on, off, interp},
+        % Put user defined functions here
+        % morekeywords=[3]{},
+        morecomment=[l][\color{Blue}]{...},
+        numbers=left,
+        firstnumber=1,
+        numberstyle=\footnotesize\color{Blue},
+        stepnumber=5
+        }
+\newcommand*{\matlabscript}[2]
+  {\begin{itemize}\item[]\lstinputlisting[caption={\texttt{#1.m}. #2},label={lst:#1}]{#1.m}\end{itemize}}
+
+\usepackage[marginpar]{todo}
+
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.4}
+\endinput
+%%
+%% End of file `homework.sty'.
