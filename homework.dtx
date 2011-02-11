@@ -28,8 +28,13 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage[T1]{fontenc}
 \usepackage{homework}[2011/02/11]
+\newcommand*{\Lopt}[1]{\textsf {#1}}            % typeset an option
+\newcommand*{\file}[1]{\texttt {#1}}            % typeset a file
+\newcommand*{\Lcount}[1]{\textsl {\small#1}}    % typeset a counter
+\newcommand*{\pstyle}[1]{\textsl {#1}}          % typeset a pagestyle
+\newcommand*{\Lenv}[1]{\texttt {#1}}            % typeset an environment
+\newcommand*{\Lpack}[1]{\textsf {#1}}           % typeset a package
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -65,17 +70,29 @@
 % \DoNotIndex{\newcommand,\newenvironment}
 % 
 %
-% \title{The \textsf{homework} class and style\thanks{This document
-%   corresponds to \textsf{homework}~\fileversion, dated \filedate.}}
+% \title{The \Lpack{homework} class and style\thanks{This document
+%   corresponds to \Lpack{homework}~\fileversion, dated \filedate.}}
 % \author{Matt Bauman \\ \texttt{mbauman@gmail.com}}
 %
 % \maketitle
+%
+% \begin{abstract}
+%   This work contains a both a class and a package designed to simplify
+%   the authoring of schoolwork, homework and assignments. They may be used
+%   independently of each other; the class provides some slight modifications
+%   to the \Lpack{article} class, while the style adds commonly used 
+%   packages and functionalities.
+% \end{abstract}
+%
+% \tableofcontents
 %
 % \section{Introduction}
 %
 % Put text here.
 %
-% \section{Usage}
+% \section{The \Lpack{homework} class}
+%
+% \subsection{Usage}
 %
 % Put text here.
 %
@@ -93,7 +110,7 @@
 %
 % \StopEventually{\PrintChanges\PrintIndex}
 %
-% \section{Implementation}
+% \subsection{Implementation}
 %
 %    \begin{macrocode}
 %<*class>
@@ -137,11 +154,11 @@
 %</class>
 %<*package>
 %    \end{macrocode}
-% \section{Introduction}
+% \section{The \Lpack{homework} package}
 %
 % Put text here.
 %
-% \section{Usage}
+% \subsection{Usage}
 %
 % Put text here.
 %
@@ -159,7 +176,7 @@
 %
 % \StopEventually{}
 %
-% \section{Implementation}
+% \subsection{Implementation}
 %
 % \begin{macro}{\dummyMacro}
 % This is a dummy macro.  If it did anything, we'd describe its
