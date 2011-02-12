@@ -29,6 +29,7 @@
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage{homework}[2011/02/12]
+% Use the same conventions from the memoir class manual
 \newcommand*{\Lopt}[1]{\textsf {#1}}            % typeset an option
 \newcommand*{\file}[1]{\texttt {#1}}            % typeset a file
 \newcommand*{\Lcount}[1]{\textsl {\small#1}}    % typeset a counter
@@ -92,84 +93,20 @@
 %
 % \section{The \Lpack{homework} class}
 %
-% \subsection{Options}
-%
-% \subsection{Commands}
-%
-% \StopEventually{\PrintChanges\PrintIndex}
-%
-% \subsection{Implementation}
-%
 % The \Lpack{homework} class is provides minor enhancements and modifications
-% to the \Lpack{article} base class.
+% to the \Lpack{article} base class which cannot be reliably achieved within
+% the style.
 % 
-%    \begin{macrocode}
-%<*class>
-%    \end{macrocode}
-% \subsubsection{Setup}
+% \subsection{Arbitrary section numbering}
 % 
-% Load \Lpack{fix-cm} first, as per its instructions.
-% 
-%    \begin{macrocode}
-\RequirePackage{fix-cm}
-%    \end{macrocode}
-% 
-% Similarly, the font \Lfont{rsfs} must be modified to support continuous font
-% scaling. See \url{http://tex.stackexchange.com/q/10698} for details. (This
-% could potentially be split off into a \Lpack{fix-rsfs} package.)
-% 
-%    \begin{macrocode}
-\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
-\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
-   <-6> rsfs5
-   <6-8> rsfs7
-   <8-> rsfs10
-}{}
-%    \end{macrocode}
-% 
-% The \Lpack{etoolbox} package is required for some of the operations within
-% this class file, including \cs{newtoggle}, \cs{ifcsundef} and 
-% \cs{ifstrempty}.
-% 
-%    \begin{macrocode}
-\RequirePackage{etoolbox}
-%    \end{macrocode}
-% 
-% \subsubsection{Class option handling}
-% 
-% In addition to the standard options provided by \Lpack{article}, the 
-% \Lpack{homework} class adds a \Lopt{screen}/\Lopt{print} option pair. These
-% mutually exclusive options do not have very much functionality in the class
-% currently. They do, however, change the default sidedness of the 
-% \Lpack{article} class (\Lopt{screen} defaults to \Lopt{oneside} and 
-% \Lopt{print} defaults to \Lopt{twoside}). In addition, the \Lpack{homework}
-% style uses this switch to configure some options for the \Lpack{hyperref}
-% package.
-% 
-%    \begin{macrocode}
-\newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
-\newtoggle{hw@print}
-
-\DeclareOption{print}{\toggletrue{hw@print}   \hw@sidedness{two}}
-\DeclareOption{screen}{\togglefalse{hw@print} \hw@sidedness{one}}
-\DeclareOption{oneside}{\hw@sidedness{one}}
-\DeclareOption{twoside}{\hw@sidedness{two}}
-
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-
-\ExecuteOptions{11pt,screen}
-\ProcessOptions\relax
-
-\LoadClass[\hw@side]{article}
-%    \end{macrocode}
-% 
-% \subsubsection{Arbitrary section numbering}
-% 
-% As homework assignments are very closely tied to the \emph{number} of the 
-% problem, relying on automatic sequential numbering can be problematic.
-% Additionally, problem numbers are not always sequential or even sensible. 
-% Thus, the \Lpack{homework} class augments the standard \cs{section} syntax 
-% to optionally specify its number.
+% Most notably, the \Lpack{homework} class allows for the user to define
+% arbitrary section numbers. As homework assignments are very closely tied to
+% the \emph{number} of the problem, relying on automatic sequential numbering
+% can be problematic. Additionally, problem numbers are not always sequential
+% or even sensible. Thus, the \Lpack{homework} class augments the standard
+% \cs{section}, \cs{subsection}, etc, syntax to optionally specify its number.
+% For simplicity, I will describe everything in terms of \cs{section}, but 
+% this modification applies to all sectioning commands.
 % 
 % The optional argument of the original syntax
 % \cs{section[toc-name]\{sec-name\}} is changed to allow a prefix
@@ -190,6 +127,77 @@
 % omitted and the \verb+|+ remains, e.g.,
 % \cs{section}\verb+[|toc-name]{sec-name}+ then the section number is set to
 % be empty.
+% 
+% \subsection{Class options}
+%
+% In addition to the standard options provided by \Lpack{article}, the 
+% \Lpack{homework} class adds a \Lopt{screen}/\Lopt{print} option pair. These
+% mutually exclusive options do not have very much functionality in the class
+% currently. They do, however, change the default sidedness of the 
+% \Lpack{article} class (\Lopt{screen} defaults to \Lopt{oneside} and 
+% \Lopt{print} defaults to \Lopt{twoside}). In addition, the \Lpack{homework}
+% style uses this switch to configure some options for the \Lpack{hyperref}
+% package.
+% 
+% \StopEventually{\PrintChanges\PrintIndex}
+%
+% \subsection{Implementation}
+%
+%    \begin{macrocode}
+%<*class>
+%    \end{macrocode}
+% \subsubsection{Setup}
+% 
+% Load \Lpack{fix-cm} first, as per its instructions. This fixes some bugs in
+% the Computer Modern font and allows for continuous scaling.
+% 
+%    \begin{macrocode}
+\RequirePackage{fix-cm}
+%    \end{macrocode}
+% 
+% Similarly, the font \Lfont{rsfs} must be modified to support continuous font
+% scaling. See \url{http://tex.stackexchange.com/q/10698} for details; thanks
+% to user \href{http://tex.stackexchange.com/users/2674/leo-liu}{Leo Liu} for
+% this solution. (This could potentially be split off into a simple 
+% \Lpack{fix-rsfs} package.)
+% 
+%    \begin{macrocode}
+\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
+\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
+   <-6> rsfs5
+   <6-8> rsfs7
+   <8-> rsfs10
+}{}
+%    \end{macrocode}
+% 
+% The \Lpack{etoolbox} package is required for some of the operations within
+% this class file, including \cs{newtoggle}, \cs{ifcsundef} and 
+% \cs{ifstrempty}.
+% 
+%    \begin{macrocode}
+\RequirePackage{etoolbox}
+%    \end{macrocode}
+% 
+% \subsubsection{Class option handling}
+% 
+%    \begin{macrocode}
+\newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
+\newtoggle{hw@print}
+
+\DeclareOption{print}{\toggletrue{hw@print}   \hw@sidedness{two}}
+\DeclareOption{screen}{\togglefalse{hw@print} \hw@sidedness{one}}
+\DeclareOption{oneside}{\hw@sidedness{one}}
+\DeclareOption{twoside}{\hw@sidedness{two}}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+
+\ExecuteOptions{11pt,screen}
+\ProcessOptions\relax
+
+\LoadClass[\hw@side]{article}
+%    \end{macrocode}
+% 
+% \subsubsection{Arbitrary section numbering}
 % 
 % To implement this, first, save the kernel \cs{@sect} command as \cs{@@sect}.
 %    \begin{macrocode}
