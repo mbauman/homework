@@ -23,18 +23,18 @@
 %<class>\ProvidesClass{homework}
 %<package>\ProvidesPackage{homework}
 %<*class|package>
-    [2011/02/11 v0.1 by Matthew J. Bauman]
+    [2011/02/12 v0.1 by Matthew J. Bauman]
 %</class|package>
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{homework}[2011/02/11]
+\usepackage{homework}[2011/02/12]
 \newcommand*{\Lopt}[1]{\textsf {#1}}            % typeset an option
 \newcommand*{\file}[1]{\texttt {#1}}            % typeset a file
 \newcommand*{\Lcount}[1]{\textsl {\small#1}}    % typeset a counter
-\newcommand*{\pstyle}[1]{\textsl {#1}}          % typeset a pagestyle
 \newcommand*{\Lenv}[1]{\texttt {#1}}            % typeset an environment
 \newcommand*{\Lpack}[1]{\textsf {#1}}           % typeset a package
+\newcommand*{\Lfont}[1]{\textsf {#1}}           % typeset a font
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -45,7 +45,7 @@
 % \fi
 %
 % \CheckSum{0}
-%
+% 
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -63,7 +63,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{v01}{2011/02/11}{Initial version}
+% \changes{v01}{2011/02/12}{Initial version}
 %
 % \GetFileInfo{homework.dtx}
 %
@@ -77,7 +77,7 @@
 % \maketitle
 %
 % \begin{abstract}
-%   This work contains a both a class and a package designed to simplify
+%   This package contains a both a class and a style designed to simplify
 %   the authoring of schoolwork, homework and assignments. They may be used
 %   independently of each other; the class provides some slight modifications
 %   to the \Lpack{article} class, while the style adds commonly used 
@@ -100,39 +100,56 @@
 %
 % \subsection{Implementation}
 %
+% The \Lpack{homework} class is provides minor enhancements and modifications
+% to the \Lpack{article} base class.
+% 
 %    \begin{macrocode}
 %<*class>
 %    \end{macrocode}
-% For simplicity, we'll derive everything from the standard |article|
-% class.
+% \subsubsection{Setup}
+% 
+% Load \Lpack{fix-cm} first, as per its instructions.
+% 
 %    \begin{macrocode}
-
-%
-% Load fixes first thing
-%
-
 \RequirePackage{fix-cm}
-% \RequirePackage{fix-rsfs}
+%    \end{macrocode}
+% 
+% Similarly, the font \Lfont{rsfs} must be modified to support continuous font
+% scaling. See \url{http://tex.stackexchange.com/q/10698} for details. (This
+% could potentially be split off into a \Lpack{fix-rsfs} package.)
+% 
+%    \begin{macrocode}
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
    <-6> rsfs5
    <6-8> rsfs7
    <8-> rsfs10
 }{}
-
-%
-% Packages required for this class file
-%
-
+%    \end{macrocode}
+% 
+% The \Lpack{etoolbox} package is required for some of the operations within
+% this class file, including \cs{newtoggle}, \cs{ifcsundef} and 
+% \cs{ifstrempty}.
+% 
+%    \begin{macrocode}
 \RequirePackage{etoolbox}
-
+%    \end{macrocode}
 % 
-% Option handling
+% \subsubsection{Class option handling}
 % 
-
-% Screen or print options and sidedness conglomerates
+% In addition to the standard options provided by \Lpack{article}, the 
+% \Lpack{homework} class adds a \Lopt{screen}/\Lopt{print} option pair. These
+% mutually exclusive options do not have very much functionality in the class
+% currently. They do, however, change the default sidedness of the 
+% \Lpack{article} class (\Lopt{screen} defaults to \Lopt{oneside} and 
+% \Lopt{print} defaults to \Lopt{twoside}). In addition, the \Lpack{homework}
+% style uses this switch to configure some options for the \Lpack{hyperref}
+% package.
+% 
+%    \begin{macrocode}
 \newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
 \newtoggle{hw@print}
+
 \DeclareOption{print}{\toggletrue{hw@print}   \hw@sidedness{two}}
 \DeclareOption{screen}{\togglefalse{hw@print} \hw@sidedness{one}}
 \DeclareOption{oneside}{\hw@sidedness{one}}
@@ -144,28 +161,97 @@
 \ProcessOptions\relax
 
 \LoadClass[\hw@side]{article}
-
-%
-% Document sectioning - hack article.cls' \@sect
-%
+%    \end{macrocode}
+% 
+% \subsubsection{Arbitrary section numbering}
+% 
+% As homework assignments are very closely tied to the \emph{number} of the 
+% problem, relying on automatic sequential numbering can be problematic.
+% Additionally, problem numbers are not always sequential or even sensible. 
+% Thus, the \Lpack{homework} class augments the standard \cs{section} syntax 
+% to optionally specify its number.
+% 
+% The optional argument of the original syntax
+% \cs{section[toc-name]\{sec-name\}} is changed to allow a prefix
+% \verb+[number|toc-name]+. Recall that the \texttt{toc-name} is how the 
+% section will be reported to the table of contents and headers, and that when
+% omitted, it is the same as \texttt{sec-name}. This addition attempts to be
+% as compatible as possible with the original syntax. If a \verb+|+ character
+% appears within the optional argument, then everything before it is 
+% considered the `number' and everything after is the section name for the
+% table of contents. Note that a \verb+|+ character may be `hidden' by
+% enclosing it within a \verb+{}+ group, in which case it is no longer
+% considered the separator.
+% 
+% Note that `empty' parts of the optional argument are handled differently,
+% depending upon which part was omitted. If the \texttt{toc-name} is omitted,
+% e.g., \cs{section}\verb+[number|]{sec-name}+, then the section name is used
+% as the name for the table of contents. If, however, the \texttt{number} is
+% omitted and the \verb+|+ remains, e.g.,
+% \cs{section}\verb+[|toc-name]{sec-name}+ then the section number is set to
+% be empty.
+% 
+% To implement this, first, save the kernel \cs{@sect} command as \cs{@@sect}.
+%    \begin{macrocode}
 \let\@@sect\@sect
-
+%    \end{macrocode}
+% 
+% Then, redefine \cs{@sect} to call the function that will handle the parsing
+% and implementation of the new syntax. Add two \verb+|+ at the end of the
+% optional argument to ensure that there will \emph{always} be at least three
+% parts separated by \verb+|+.
+% 
+%    \begin{macrocode}
 \def\@sect#1#2#3#4#5#6[#7]#8{ %
   \hw@sectsplit{#1}{{#2}{#3}{#4}{#5}{#6}}[#7||]{#8}
 }
-
+%    \end{macrocode}
+% 
+% The \cs{hw@sectsplit} macro is the meat of the implementation of arbitrary
+% numbering. It parses the optional argument into three parts, \verb+#3+,
+% \verb+#4+, and \verb+#5+.
+% 
+%    \begin{macrocode}
 \def\hw@sectsplit#1#2[#3|#4|#5]#6{ %
+%    \end{macrocode}
+% 
+% As the \cs{thesection} (or \cs{thesubsection}, etc, but for simplicity, I
+% will describe this in terms of \cs{section}) macro is overwritten whenever a 
+% custom number is used, we need to ensure that the original value is saved.
+% The first time a sectioning command is called, we save this value into 
+% \cs{hw@theorigsection}. Note that this has the side-effect that the user
+% may not redefine \cs{thesection} in the middle of the document.
+% 
+%    \begin{macrocode}
   \ifcsundef{hw@theorig#1}
     {\expandafter\edef\csname hw@theorig#1\endcsname %
       {\expandafter\expandonce\csname the#1\endcsname}}
     {\relax}
+%    \end{macrocode}
+% 
+% Now we must parse the optional argument. Argument \verb+#5+ simply absorbs
+% any extra \verb+|+s. If it is empty, then that means that there were no
+% \verb+|+s in the input, and only a \texttt{toc-name} was specified. In this 
+% case, simply ensure that \cs{thesection} is defined as its original
+% definition and call the kernel's \cs{@sect} using the defined 
+% \texttt{toc-name}.
+% 
+%    \begin{macrocode}
   \ifstrempty{#4#5}
   {
-    % No pipe in original input -- just restore \the#1 and behave normally
     \expandafter\edef\csname the#1\endcsname %
       {\expandafter\noexpand\csname hw@theorig#1\endcsname}
     \@@sect{#1}#2[{#3}]{#6}
   }
+%    \end{macrocode}
+% 
+% If, however, argument \verb+#5+ was not empty, then the user is calling the
+% new custom syntax. We define the \cs{thesection} as argument \verb+#3+ and
+% then call the kernel's \cs{@sect} command. If argument \verb+#4+ is empty,
+% use the default \texttt{toc-name}. Otherwise, use the input provided by the
+% user in argument \verb+#4+.
+% 
+%    \begin{macrocode}
   {
     \expandafter\edef\csname the#1\endcsname{#3}
     \ifstrempty{#4}
@@ -173,10 +259,14 @@
       {\@@sect{#1}#2[{#4}]{#6}}
   }
 }
-
-%
-% Document titling
-%
+%    \end{macrocode}
+% 
+% \subsubsection{Document titling}
+% 
+% The \Lpack{homework} class also provides a few convenience macros to 
+% simplify document titling.
+% 
+%    \begin{macrocode}
 \newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
 \newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
 \title{\textbf{\@hwClass:} \@hwTitle}
@@ -185,7 +275,7 @@
 %    \begin{macrocode}
 %</class>
 %    \end{macrocode}
-% \section{The \Lpack{homework} package}
+% \section{The \Lpack{homework} style}
 %
 % Put text here.
 %

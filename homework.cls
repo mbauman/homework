@@ -22,9 +22,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{homework}
-    [2011/02/11 v0.1 by Matthew J. Bauman]
-
-
+    [2011/02/12 v0.1 by Matthew J. Bauman]
 \RequirePackage{fix-cm}
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
@@ -32,13 +30,10 @@
    <6-8> rsfs7
    <8-> rsfs10
 }{}
-
-
 \RequirePackage{etoolbox}
-
-
 \newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
 \newtoggle{hw@print}
+
 \DeclareOption{print}{\toggletrue{hw@print}   \hw@sidedness{two}}
 \DeclareOption{screen}{\togglefalse{hw@print} \hw@sidedness{one}}
 \DeclareOption{oneside}{\hw@sidedness{one}}
@@ -50,13 +45,10 @@
 \ProcessOptions\relax
 
 \LoadClass[\hw@side]{article}
-
 \let\@@sect\@sect
-
 \def\@sect#1#2#3#4#5#6[#7]#8{ %
   \hw@sectsplit{#1}{{#2}{#3}{#4}{#5}{#6}}[#7||]{#8}
 }
-
 \def\hw@sectsplit#1#2[#3|#4|#5]#6{ %
   \ifcsundef{hw@theorig#1}
     {\expandafter\edef\csname hw@theorig#1\endcsname %
@@ -64,7 +56,6 @@
     {\relax}
   \ifstrempty{#4#5}
   {
-    % No pipe in original input -- just restore \the#1 and behave normally
     \expandafter\edef\csname the#1\endcsname %
       {\expandafter\noexpand\csname hw@theorig#1\endcsname}
     \@@sect{#1}#2[{#3}]{#6}
@@ -76,7 +67,6 @@
       {\@@sect{#1}#2[{#4}]{#6}}
   }
 }
-
 \newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
 \newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
 \title{\textbf{\@hwClass:} \@hwTitle}
