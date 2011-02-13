@@ -26,9 +26,9 @@
 \RequirePackage{fix-cm}
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
-   <-6> rsfs5
+   <-6>  rsfs5
    <6-8> rsfs7
-   <8-> rsfs10
+   <8->  rsfs10
 }{}
 \RequirePackage{etoolbox}
 \newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}

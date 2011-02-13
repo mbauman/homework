@@ -123,8 +123,9 @@
 % appears within the optional argument, then everything before it is 
 % considered the `number' and everything after is the section name for the
 % table of contents. Note that a \verb+|+ character may be `hidden' by
-% enclosing it within a \verb+{}+ group, in which case it is no longer
-% considered the separator.
+% enclosing it within a double \verb+{{}}+ group (Todo: is it possible to 
+% achieve this with just one group?), in which case it is no longer considered
+% the separator.
 % 
 % Note that `empty' parts of the optional argument are handled differently,
 % depending upon which part was omitted. If the \texttt{toc-name} is omitted,
@@ -170,9 +171,9 @@
 %    \begin{macrocode}
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
-   <-6> rsfs5
+   <-6>  rsfs5
    <6-8> rsfs7
-   <8-> rsfs10
+   <8->  rsfs10
 }{}
 %    \end{macrocode}
 % 
@@ -285,7 +286,7 @@
 \newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
 \title{\textbf{\@hwClass:} \@hwTitle}
 %    \end{macrocode}
-%
+% 
 %    \begin{macrocode}
 %</class>
 %    \end{macrocode}
@@ -393,6 +394,6 @@
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
-%
+% 
 % \Finale
 \endinput
