@@ -1,0 +1,69 @@
+\documentclass{homework}
+\usepackage{lipsum}
+\usepackage[T1]{fontenc}
+% \tracingall
+
+\title{Testing the \textsf{homework} class}
+\author{Matthew Bauman}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Hello World}
+
+\lipsum[1-2]
+
+\subsection{Un-customized subsection}
+
+\lipsum[3]
+
+\subsection[Custom TOC entry]{Subsection with a custom TOC entry}
+
+\lipsum[4]
+
+\subsection[A-3)|]{Subsection with a custom number}
+
+\lipsum[5]
+
+\subsection[I.d:|Custom number and TOC entry]{Subsection with a custom number and TOC entry}
+
+\lipsum[6]
+
+\subsection[{{Hidden | in TOC}}]{Subsection with a hidden pipe in its TOC entry}
+
+\lipsum[7]
+
+\subsection[{{$\alpha.\phi$|}}|]{Subsection with a hidden pipe in its number}
+
+\lipsum[8]
+
+\section[3x|]{Custom section number}
+
+\lipsum[9]
+
+\subsection{Subsection inherits the number}
+
+\subsubsection{So does the subsubsection}
+
+\lipsum[10]
+
+\subsection[C$\xi$.b|]{But it can override it}
+
+\subsubsection{Which is then followed}
+
+\lipsum[11]
+
+\subsection{But things go back to normal}
+
+\lipsum[12]
+
+\subsection[\thesection.$\gamma$|]{Or it can do something funny referencing it}
+
+\lipsum[13]
+
+\section[2011|]{Long numbers are a problem in the table of contents}
+
+\end{document}
