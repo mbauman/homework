@@ -22,8 +22,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{homework}
-    [2011/02/12 v0.1 by Matthew J. Bauman]
-\RequirePackage{fix-cm}
+    [2011/02/13 v0.1 by Matthew J. Bauman]
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
    <-6>  rsfs5
@@ -67,9 +66,7 @@
       {\@@sect{#1}#2[{#4}]{#6}}
   }
 }
-\newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
-\newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
-\title{\textbf{\@hwClass:} \@hwTitle}
+\patchcmd{\@maketitle}{\null\vskip 2em}{\null}{}{}
 \endinput
 %%
 %% End of file `homework.cls'.

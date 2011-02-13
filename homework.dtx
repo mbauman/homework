@@ -23,12 +23,15 @@
 %<class>\ProvidesClass{homework}
 %<package>\ProvidesPackage{homework}
 %<*class|package>
-    [2011/02/12 v0.1 by Matthew J. Bauman]
+    [2011/02/13 v0.1 by Matthew J. Bauman]
 %</class|package>
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{homework}[2011/02/12]
+\usepackage{homework}[2011/02/13]
+% Logos
+\usepackage{mflogo}
+\usepackage{metalogo}
 % Use the same conventions from the memoir class manual
 \newcommand*{\Lopt}[1]{\textsf {#1}}            % typeset an option
 \newcommand*{\file}[1]{\texttt {#1}}            % typeset a file
@@ -64,7 +67,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{v01}{2011/02/12}{Initial version}
+% \changes{v01}{2011/02/13}{Initial version}
 %
 % \GetFileInfo{homework.dtx}
 %
@@ -155,14 +158,7 @@
 %    \end{macrocode}
 % \subsubsection{Setup}
 % 
-% Load \Lpack{fix-cm} first, as per its instructions. This fixes some bugs in
-% the Computer Modern font and allows for continuous scaling.
-% 
-%    \begin{macrocode}
-\RequirePackage{fix-cm}
-%    \end{macrocode}
-% 
-% Similarly, the font \Lfont{rsfs} must be modified to support continuous font
+% The font \Lfont{rsfs} must be modified to support continuous font
 % scaling. See \url{http://tex.stackexchange.com/q/10698} for details; thanks
 % to user \href{http://tex.stackexchange.com/users/2674/leo-liu}{Leo Liu} for
 % this solution. (This could potentially be split off into a simple 
@@ -278,13 +274,12 @@
 % 
 % \subsubsection{Document titling}
 % 
-% The \Lpack{homework} class also provides a few convenience macros to 
-% simplify document titling.
+% I find the amount of whitespace above the title excessive in most cases. 
+% This attempts to patch the kernel's \cs{@maketitle} command to omit the
+% initial \cs{vskip}.
 % 
 %    \begin{macrocode}
-\newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
-\newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
-\title{\textbf{\@hwClass:} \@hwTitle}
+\patchcmd{\@maketitle}{\null\vskip 2em}{\null}{}{}
 %    \end{macrocode}
 % 
 %    \begin{macrocode}
@@ -292,29 +287,111 @@
 %    \end{macrocode}
 % \section{The \Lpack{homework} style}
 %
-% Put text here.
-%
+% As the \Lpack{homework} style is mostly composed of other packages, the
+% implementation serves nicely as its only documentation section.
 %
 % \StopEventually{}
-%
-% \subsection{Implementation}
 %
 %    \begin{macrocode}
 %<*package>
 %    \end{macrocode}
-% Here follows the source:
+% Load fixes to \LaTeXe{}r right away.
 %    \begin{macrocode}
 \usepackage{fixltx2e}
-% Use utf-8 encoding for foreign characters
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[scaled=.86]{beramono}
+%    \end{macrocode}
+% 
+% \subsection{Font and encoding setup}
+% 
+% Fonts are convoluted and tricky, and they have changed a lot since \TeX{} 
+% and \MF{} first appeared. A lot of information online is outdated. One major
+% change is that fonts used to be bitmaps, and now they are almost all
+% vectorized -- font sizing shifted from discrete to continuous. In addition,
+% the world has gotten much better at supporting non-English languages through
+% different font and text encodings. \LaTeX{} still defaults to using bitmap 
+% fonts and the old encoding schemes.
+% 
+% There are three major advantages for an English language writer to switch to
+% the newer font encoding \texttt{T1}.
+% \begin{enumerate}
+%   \item Accented characters in the output may be selected, copied and 
+%     searched. Contrast G\"odel with G\"{} \kern-.83em odel. (This only 
+%     simulates its rendering, but I believe it should be accurate. Try it!)
+%   \item Words with accented characters are properly hyphenated. See: 
+%     Süpercálîfragilísticëxpialïdoçious. 
+%   \item The characters \verb+<>|+ in the text source appear properly as 
+%     <>\textbar{} in the output, instead of ¡¿—. (They have always worked 
+%     properly in math mode.)
+% \iffalse
+%% Ironically, dtx uses | for the verbatim environments that define the
+%% documentation, so I cannot type it here -- it must be hidden by an iffalse!
+% \fi
+% \end{enumerate}
+% I highly recommend it.
+% 
+% This does, however, have an impact on the available fonts; they must match
+% the encoding. Not all fonts are available in all encodings. Generally, if
+% you wish to use a font other than Knuth's \Lfont{Computer Modern}, you may
+% have greater success using \XeLaTeX{} to typeset your document. It vastly 
+% simplifies font selection, and enables system fonts to be used in the 
+% document. 
+% 
+% As I understand it, there are three major descendants of Knuth's original
+% \Lfont{Computer Modern} font: 
+% \begin{description}
+%   \item[Blue Sky \Lfont{Computer Modern}] A private company, Blue Sky,
+%     took Knuth's original source and spent many hours hand-tuning the
+%     hinting, and were selling it. AMS found the improvements very worthwhile
+%     and bought the rights to the font, allowing them to freely distribute
+%     it in their package. This is the default font in most (all?) modern 
+%     \LaTeX{} distributions, but it is unfortunately not encoded in T1.
+%   \item[\Lfont{CM-Super}] was the first effort in converting 
+%     \Lfont{Computer Modern} to the T1 encoding. It is based on the 
+%     \Lfont{EC}, or European, variant, with many many more available symbols.  
+%     This is the default font when using a T1 encoding.
+%   \item[\Lfont{Latin Modern}] is derived from both \Lfont{cm} and 
+%     \Lfont{cm-super}. It is generally regarded as superior to 
+%     \Lfont{cm-super}, as its vectorization was done by hand and it includes
+%     some much needed fixes to the font metrics. It has many more available
+%     glyphs and has continued development. See
+%     \href{http://www.tug.org/pracjourn/2006-1/robertson/robertson.pdf}{``An
+%     exploration of the Latin Modern fonts'' by Will Robertson (pdf)} for 
+%     many more details.
+% \end{description}
+% When using \Lfont{cm} or \Lfont{cm-super}, you should load the 
+% \Lpack{fix-cm} package \emph{before} you call the document class. This
+% enables continuous scaling of the fonts and applies some other fixes. But
+% \Lpack{homework} shall default to \Lfont{Latin Modern} and \texttt{T1} for 
+% the reasons listed above (when not using \XeLaTeX).
+% 
+%    \begin{macrocode}
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{xltxtra}
+\else
+  \usepackage{lmodern}
+  \usepackage[T1]{fontenc}
+%    \end{macrocode}
+% 
+% Just as font encodings have changed in the last 20 years, so has the 
+% encoding of text files. \TeX{} assumes an ASCII source file. However, most 
+% every plain text document today is unicode. While the new encoding is
+% backwards compatible and is generally readable as ASCII, explicitly telling
+% \LaTeX{} that the document is unicode allows for more complicated characters
+% in the source. For example, it enables the writing of accents directly: 
+% \verb-\verb|àéîöüñ|-. Even crazier characters may be easily typeset 
+% (provided you know how to input them): \verb-\verb|¡™£¢§¶•ªºœ´®ßµ|-.
+% \XeLaTeX{} supports this with the \Lpack{xltxtra} package loaded above.
+% 
+%    \begin{macrocode}
+  \usepackage[utf8]{inputenc}
+  \usepackage[scaled=.86]{beramono}
+  % Use microtype, but with half the expansion and protruding punctuation
+  \usepackage[stretch=10,protrusion=true]{microtype}
+\fi
 \usepackage{textcomp}
-% Use microtype, but with half the expansion and protruding punctuation
-\usepackage[stretch=10,protrusion=true]{microtype}
 
 % Math stuffs
-\usepackage{amsmath,amsthm,amssymb}
+\usepackage{amssymb,amsmath,amsthm}
 \usepackage{mathtools}
 \usepackage{dsfont} % \mathds{R} for reals, etc
 \usepackage{mathrsfs} % \mathscr for scripts
@@ -386,6 +463,9 @@
 \usepackage[colorlinks,linkcolor=blue]{hyperref}
 \newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
 
+\newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
+\newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
+\title{\textbf{\@hwClass:} \@hwTitle}
 
 \usepackage{tikz}
 \usepackage{pgfplots}

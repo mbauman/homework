@@ -22,15 +22,24 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{homework}
-    [2011/02/12 v0.1 by Matthew J. Bauman]
+    [2011/02/13 v0.1 by Matthew J. Bauman]
 \usepackage{fixltx2e}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[scaled=.86]{beramono}
+%% Ironically, dtx uses | for the verbatim environments that define the
+%% documentation, so I cannot type it here -- it must be hidden by an iffalse!
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{xltxtra}
+\else
+  \usepackage{lmodern}
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[scaled=.86]{beramono}
+  % Use microtype, but with half the expansion and protruding punctuation
+  \usepackage[stretch=10,protrusion=true]{microtype}
+\fi
 \usepackage{textcomp}
-\usepackage[stretch=10,protrusion=true]{microtype}
 
-\usepackage{amsmath,amsthm,amssymb}
+\usepackage{amssymb,amsmath,amsthm}
 \usepackage{mathtools}
 \usepackage{dsfont} % \mathds{R} for reals, etc
 \usepackage{mathrsfs} % \mathscr for scripts
@@ -89,6 +98,10 @@
 
 \usepackage[colorlinks,linkcolor=blue]{hyperref}
 \newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
+
+\newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
+\newcommand*{\hwTitle}[1]{\def\@hwTitle{#1}}
+\title{\textbf{\@hwClass:} \@hwTitle}
 
 \usepackage{tikz}
 \usepackage{pgfplots}
