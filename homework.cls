@@ -67,6 +67,8 @@
   }
 }
 \patchcmd{\@maketitle}{\null\vskip 2em}{\null}{}{}
+\let\Small\footnotesize
+\let\SMALL\scriptsize
 \endinput
 %%
 %% End of file `homework.cls'.

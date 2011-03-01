@@ -28,18 +28,17 @@
 %% documentation, so I cannot type it here -- it must be hidden by an iffalse!
 \usepackage{ifxetex}
 \ifxetex
+  \usepackage{amssymb} % Load this first due to an incompatibility
   \usepackage{xltxtra}
 \else
   \usepackage{lmodern}
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage[scaled=.86]{beramono}
-  % Use microtype, but with half the expansion and protruding punctuation
   \usepackage[stretch=10,protrusion=true]{microtype}
 \fi
 \usepackage{textcomp}
 
-\usepackage{amssymb,amsmath,amsthm}
+\usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{dsfont} % \mathds{R} for reals, etc
 \usepackage{mathrsfs} % \mathscr for scripts

@@ -30,6 +30,7 @@
 \documentclass{ltxdoc}
 \usepackage{homework}[2011/02/13]
 % Logos
+\let\varepsilon\epsilon\relax
 \usepackage{mflogo}
 \usepackage{metalogo}
 % Use the same conventions from the memoir class manual
@@ -282,6 +283,13 @@
 \patchcmd{\@maketitle}{\null\vskip 2em}{\null}{}{}
 %    \end{macrocode}
 % 
+% Define more convenient synonyms for the small font sizes
+% 
+%    \begin{macrocode}
+\let\Small\footnotesize
+\let\SMALL\scriptsize
+%    \end{macrocode}
+% 
 %    \begin{macrocode}
 %</class>
 %    \end{macrocode}
@@ -295,7 +303,7 @@
 %    \begin{macrocode}
 %<*package>
 %    \end{macrocode}
-% Load fixes to \LaTeXe{}r right away.
+% Load fixes to \LaTeXe{} right away.
 %    \begin{macrocode}
 \usepackage{fixltx2e}
 %    \end{macrocode}
@@ -366,6 +374,7 @@
 %    \begin{macrocode}
 \usepackage{ifxetex}
 \ifxetex
+  \usepackage{amssymb} % Load this first due to an incompatibility
   \usepackage{xltxtra}
 \else
   \usepackage{lmodern}
@@ -384,14 +393,31 @@
 % 
 %    \begin{macrocode}
   \usepackage[utf8]{inputenc}
-  \usepackage[scaled=.86]{beramono}
-  % Use microtype, but with half the expansion and protruding punctuation
+%    \end{macrocode}
+% 
+% As a final modification to \TeX{}'s font handling, load the 
+% \Lpack{microtype} package. In order to justify the text, \TeX{} adjusts
+% the spacing between words to make the right column properly aligned.
+% \Lpack{Microtype} applies a few minor adjustments. The option 
+% \texttt{stretch=10} means that \TeX{} will stretch the font itself, up to 
+% \SI{10}{\percent} (the default is \SI{20}{\percent}, but I find that a bit 
+% excessive). This is barely noticeable, and often results in smaller
+% (and more acceptable) inter-word spacing. The \texttt{protrusion=true}
+% option allows punctuation to slightly hang over the right column. This makes 
+% text appear to align \emph{better} along the right margin
+% 
+%    \begin{macrocode}
   \usepackage[stretch=10,protrusion=true]{microtype}
 \fi
+%    \end{macrocode}
+% 
+% 
+% 
+%    \begin{macrocode}
 \usepackage{textcomp}
 
 % Math stuffs
-\usepackage{amssymb,amsmath,amsthm}
+\usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{dsfont} % \mathds{R} for reals, etc
 \usepackage{mathrsfs} % \mathscr for scripts
