@@ -404,21 +404,39 @@
 % excessive). This is barely noticeable, and often results in smaller
 % (and more acceptable) inter-word spacing. The \texttt{protrusion=true}
 % option allows punctuation to slightly hang over the right column. This makes 
-% text appear to align \emph{better} along the right margin
+% text appear to align \emph{better} along the right margin. This package is
+% currently under development for full \XeTeX{} compatibility.
 % 
 %    \begin{macrocode}
   \usepackage[stretch=10,protrusion=true]{microtype}
 \fi
 %    \end{macrocode}
 % 
-% 
+% The \Lpack{textcomp} package allows easy access to some nice glyphs, such as
+% \cs{textmu} (\textmu), bullets (\textbullet\ \textdagger\ 
+% \textasteriskcentered), arrows (\textdownarrow\ \textrightarrow), currency
+% symbols and other symbols that are traditionally mathmode-only. See the
+% venerable \Lfile{symbols-a4.pdf} for a full listing.
 % 
 %    \begin{macrocode}
 \usepackage{textcomp}
-
-% Math stuffs
+%    \end{macrocode}
+% 
+% \subsection{Maths}
+% 
+% The canonical way of doing Mathematics in \LaTeX is with \Lpack{amsmath} and 
+% its associated packages. That said, there are a few bugs that they are 
+% unable to fix; \Lpack{mathtools} provides these fixes as well as a few 
+% much-needed enhancements.
+% 
+%    \begin{macrocode}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
+%    \end{macrocode}
+% 
+% 
+% 
+%    \begin{macrocode}
 % Redefine the equation environment to be the same as gather for compatibility
 % with hyperref:
 \let\equation\gather
