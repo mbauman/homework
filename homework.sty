@@ -41,9 +41,15 @@
 \usepackage{mathtools}
 \let\equation\gather
 \let\endequation\endgather
-\usepackage{dsfont} % \mathds{R} for reals, etc
-\usepackage{mathrsfs} % \mathscr for scripts
-\usepackage{xfrac} % \sfrac{1}{2} for slanted fractions
+\usepackage{dsfont}
+\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
+\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
+   <-6>  rsfs5
+   <6-8> rsfs7
+   <8->  rsfs10
+}{}
+\usepackage{mathrsfs}
+\usepackage{xfrac}
 \usepackage{empheq}
 \newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
 \sch@swap{\theta}{\vartheta}
