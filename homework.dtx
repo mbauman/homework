@@ -157,22 +157,8 @@
 %    \begin{macrocode}
 %<*class>
 %    \end{macrocode}
+% 
 % \subsubsection{Setup}
-% 
-% The font \Lfont{rsfs} must be modified to support continuous font
-% scaling. See \url{http://tex.stackexchange.com/q/10698} for details; thanks
-% to user \href{http://tex.stackexchange.com/users/2674/leo-liu}{Leo Liu} for
-% this solution. (This could potentially be split off into a simple 
-% \Lpack{fix-rsfs} package.)
-% 
-%    \begin{macrocode}
-\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
-\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
-   <-6>  rsfs5
-   <6-8> rsfs7
-   <8->  rsfs10
-}{}
-%    \end{macrocode}
 % 
 % The \Lpack{etoolbox} package is required for some of the operations within
 % this class file, including \cs{newtoggle}, \cs{ifcsundef} and 
@@ -434,16 +420,53 @@
 \usepackage{mathtools}
 %    \end{macrocode}
 % 
+% Redefine the equation environment to be the same as gather for compatibility
+% with hyperref:
+% 
+%    \begin{macrocode}
+\let\equation\gather
+\let\endequation\endgather
+%    \end{macrocode}
+% 
+% The \Lpack{dsfont} package is my preferred choice for typesetting the
+% standard number sets: \cs{mathds\{R\ldots\}} $\mathds{R,\,C,\,Z,\,Q,\,N}$.
+% 
+%    \begin{macrocode}
+\usepackage{dsfont}
+%    \end{macrocode}
+% 
+% Additionally, I find the default script fonts lacking. I find Ralph Smith's
+% Formal Script font, \Lfont{rsfs} much more appealing in some cases. Compare
+% \cs{mathcal} with \cs{mathscr}: $\mathcal{F,\,L}$ $\mathscr{F,\,L}$.
+% Unfortunately, the \Lpack{mathrsfs} package does not load the font for
+% variable sizing, even though it supports it. See 
+% \url{http://tex.stackexchange.com/q/10698} for details; thanks to user
+% \href{http://tex.stackexchange.com/users/2674/leo-liu}{Leo Liu} for this
+% solution. (This could potentially be split off into a simple 
+% \Lpack{fix-rsfs} package, mirroring \Lpack{fix-cm}.)
+% 
+%    \begin{macrocode}
+\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
+\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
+   <-6>  rsfs5
+   <6-8> rsfs7
+   <8->  rsfs10
+}{}
+\usepackage{mathrsfs}
+%    \end{macrocode}
+% 
+% The \Lpack{xfrac} package provides very high quality slanted fractions,
+% provided through the \cs{sfrac} command: \sfrac{1}{2}. It is the generally
+% accepted replacement to \Lpack{nicefrac}. There are lots of configuration
+% options, but the defaults work very well.
+% 
+%    \begin{macrocode}
+\usepackage{xfrac}
+%    \end{macrocode}
+% 
 % 
 % 
 %    \begin{macrocode}
-% Redefine the equation environment to be the same as gather for compatibility
-% with hyperref:
-\let\equation\gather
-\let\endequation\endgather
-\usepackage{dsfont} % \mathds{R} for reals, etc
-\usepackage{mathrsfs} % \mathscr for scripts
-\usepackage{xfrac} % \sfrac{1}{2} for slanted fractions
 \usepackage{empheq}
 \newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
 \sch@swap{\theta}{\vartheta}

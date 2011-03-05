@@ -23,12 +23,6 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{homework}
     [2011/02/13 v0.1 by Matthew J. Bauman]
-\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
-\DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
-   <-6>  rsfs5
-   <6-8> rsfs7
-   <8->  rsfs10
-}{}
 \RequirePackage{etoolbox}
 \newcommand{\hw@sidedness}[1]{\def\hw@side{#1side}}
 \newtoggle{hw@print}
