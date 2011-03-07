@@ -413,7 +413,9 @@
 % The canonical way of doing Mathematics in \LaTeX is with \Lpack{amsmath} and 
 % its associated packages. That said, there are a few bugs that they are 
 % unable to fix; \Lpack{mathtools} provides these fixes as well as a few 
-% much-needed enhancements.
+% much-needed enhancements. This includes fixing \cs{underbrace} and
+% \cs{overbrace}, providing alignment options to \cs{matrix*}, and centering
+% the colon in $\vcentcolon=$ (contrast with $:=$), and more.
 % 
 %    \begin{macrocode}
 \usepackage{amsmath,amsthm,amssymb}
@@ -426,6 +428,24 @@
 %    \begin{macrocode}
 \let\equation\gather
 \let\endequation\endgather
+%    \end{macrocode}
+% 
+% Another augmentation for \Lpack{amsmath} is the \Lpack{empheq} package. It 
+% allows for many sorts of decorations on equation blocks. Most notably, this
+% includes 
+% bracketed equations with \verb|\begin{empheq}[left=\empheqlbrace]{align*}|
+% and boxed equations with \verb|\begin{empheq}[box=\fbox]{align}|.
+% \begin{empheq}[left=\empheqlbrace]{align*}
+%    x + y + 5  &= 0 \\
+%    x - 3y + 2 &= 0
+% \end{empheq}
+% \begin{empheq}[box=\fbox]{align*}
+%   x &= \sqrt{2} \\
+%   y &= \sfrac{3}{2}
+% \end{empheq}
+% 
+%    \begin{macrocode}
+\usepackage{empheq}
 %    \end{macrocode}
 % 
 % The \Lpack{dsfont} package is my preferred choice for typesetting the
@@ -464,24 +484,51 @@
 \usepackage{xfrac}
 %    \end{macrocode}
 % 
-% 
+% I prefer the variants for the Greek $\theta$, $\phi$, and $\epsilon$. This 
+% makes the variants the default.
 % 
 %    \begin{macrocode}
-\usepackage{empheq}
 \newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
 \sch@swap{\theta}{\vartheta}
 \sch@swap{\phi}{\varphi}
 \sch@swap{\epsilon}{\varepsilon}
-
-% Graphics and colors
+%    \end{macrocode}
+% 
+% \subsection{Science}
+% 
+% The \Lpack{siunitx} package is a marvelously designed and very flexible way
+% to display numbers with units attached. It does spacing properly, and
+% formats all the units consistently throughout the document. Some examples:
+% \begin{itemize}
+%   \item \verb|\SI{3}{\meter\per\second}| $\to$ \SI{3}{\meter\per\second}
+%   \item \verb|\SI{1.2}{\micro\ampere\per\centi\meter\squared}|
+%         $\to$ \SI{1.2}{\micro\ampere\per\centi\meter\squared}
+%   \item \verb|\SI{\sqrt{2}}{kW/m^2}| $\to$ \SI{2}{kW/m^2}
+%   \item \verb|\SI{95.4}{\percent}| $\to$ \SI{95.4}{\percent}
+%   \item \verb|\SI{37.5}{\degreeCelsius}| $\to$ \SI{37.5}{\degreeCelsius}
+% \end{itemize}
+% You can also make it automatically detect quotients in the value and use
+% \cs{sfrac} to format them: 
+% 
+% \verb|\sisetup{quotient-mode = fraction, fraction-function = \sfrac}|
+% 
+%    \begin{macrocode}
+\usepackage{siunitx}
+\sisetup{per-mode = symbol}
+%    \end{macrocode}
+% 
+% Similarly, \Lpack{mhchem} provides very smart chemical formulas and 
+% equations. \verb|\ce{(NH4)2S}| $\to$ \ce{(NH4)2S}.
+% 
+%    \begin{macrocode}
+\usepackage[version=3]{mhchem}
+%    \end{macrocode}
+% 
+% \subsection{Graphics and Figures}
+% 
+%    \begin{macrocode}
 \usepackage[svgnames]{xcolor}
 \usepackage{graphicx}
-
-% amazing unit rendering with si{\micro{}A/cm^2}, SI{3}{\meters\per\second}
-\usepackage{siunitx}
-\sisetup{per-mode = symbol} % use units in 'm/s' format
-% And good chemical formula rendering
-\usepackage[version=3]{mhchem}
 
 % Figure handling
 \usepackage{float}    % Allow "unfloating" with the H placement specifier

@@ -41,6 +41,7 @@
 \usepackage{mathtools}
 \let\equation\gather
 \let\endequation\endgather
+\usepackage{empheq}
 \usepackage{dsfont}
 \DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
 \DeclareFontShape{U}{rsfs}{m}{n}{ % Allow continuous sizing
@@ -50,18 +51,15 @@
 }{}
 \usepackage{mathrsfs}
 \usepackage{xfrac}
-\usepackage{empheq}
 \newcommand{\sch@swap}[2]{\let\sch@tmp#1 \let#1#2 \let#2\sch@tmp}
 \sch@swap{\theta}{\vartheta}
 \sch@swap{\phi}{\varphi}
 \sch@swap{\epsilon}{\varepsilon}
-
+\usepackage{siunitx}
+\sisetup{per-mode = symbol}
+\usepackage[version=3]{mhchem}
 \usepackage[svgnames]{xcolor}
 \usepackage{graphicx}
-
-\usepackage{siunitx}
-\sisetup{per-mode = symbol} % use units in 'm/s' format
-\usepackage[version=3]{mhchem}
 
 \usepackage{float}    % Allow "unfloating" with the H placement specifier
 \usepackage{wrapfig}
