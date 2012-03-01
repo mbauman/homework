@@ -200,7 +200,7 @@
 % parts separated by \verb+|+.
 % 
 %    \begin{macrocode}
-\def\@sect#1#2#3#4#5#6[#7]#8{ %
+\def\@sect#1#2#3#4#5#6[#7]#8{
   \hw@sectsplit{#1}{{#2}{#3}{#4}{#5}{#6}}[#7||]{#8}
 }
 %    \end{macrocode}
@@ -210,21 +210,28 @@
 % \verb+#4+, and \verb+#5+.
 % 
 %    \begin{macrocode}
-\def\hw@sectsplit#1#2[#3|#4|#5]#6{ %
+\def\hw@sectsplit#1#2[#3|#4|#5]#6{
 %    \end{macrocode}
 % 
 % As the \cs{thesection} (or \cs{thesubsection}, etc, but for simplicity, I
 % will describe this in terms of \cs{section}) macro is overwritten whenever a 
 % custom number is used, we need to ensure that the original value is saved.
 % The first time a sectioning command is called, we save this value into 
-% \cs{hw@theorigsection}. Note that this has the side-effect that the user
-% may not redefine \cs{thesection} in the middle of the document.
+% \cs{hw@theorigsection}.
 % 
 %    \begin{macrocode}
   \ifcsundef{hw@theorig#1}
-    {\expandafter\edef\csname hw@theorig#1\endcsname %
-      {\expandafter\expandonce\csname the#1\endcsname}}
-    {\relax}
+    { \csletcs{hw@theorig#1}{the#1}\csletcs{hw@theprev#1}{the#1} }
+    { \relax }
+%    \end{macrocode}
+% 
+% To allow the user to redefine \cs{the*} in the middle of a document, compare
+% it to \cs{hw@theprev*}. If they are different, then the user has changed it.
+% 
+%    \begin{macrocode}
+  \ifcsequal{the#1}{hw@theprev#1}
+    { \relax }
+    { \csletcs{hw@theorig#1}{the#1}\csletcs{hw@theprev#1}{the#1} }
 %    \end{macrocode}
 % 
 % Now we must parse the optional argument. Argument \verb+#5+ simply absorbs
@@ -237,8 +244,7 @@
 %    \begin{macrocode}
   \ifstrempty{#4#5}
   {
-    \expandafter\edef\csname the#1\endcsname %
-      {\expandafter\noexpand\csname hw@theorig#1\endcsname}
+    \csedef{the#1}{\csexpandonce{hw@theorig#1}}
     \@@sect{#1}#2[{#3}]{#6}
   }
 %    \end{macrocode}
@@ -251,7 +257,8 @@
 % 
 %    \begin{macrocode}
   {
-    \expandafter\edef\csname the#1\endcsname{#3}
+    \csedef{the#1}{#3}
+    \csletcs{hw@theprev#1}{the#1}
     \ifstrempty{#4}
       {\@@sect{#1}#2[{#6}]{#6}}
       {\@@sect{#1}#2[{#4}]{#6}}

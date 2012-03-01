@@ -12,86 +12,68 @@
 
 \tableofcontents
 
-\section{Hello World}
+\section{Default: Section 1 (basics)}
 
-\lipsum[1-2]
+\subsection{Default: Subsection 1.1}
 
-\subsection{Un-customized subsection}
+\subsection[Custom TOC: Subsection 1.2 (custom)]{Custom TOC: Subsection 1.2}
 
-\lipsum[3]
+\subsection[A-3)|]{Custom \#: Subsection A-3)}
 
-\subsection[Custom TOC entry]{Subsection with a custom TOC entry}
+\subsection[I.d:|Custom \# and TOC: Subsection I.d: (custom)]{Custom \# and TOC: Subsection I.d:}
 
-\lipsum[4]
+\subsection[{{Custom TOC: Section 1.5 with | in TOC (custom)}}]{Custom TOC: Section 1.5 with | in TOC}
 
-\subsection[A-3)|]{Subsection with a custom number}
+\subsection[{{$\alpha.\phi$|}}|]{Custom \#: Subsection $\alpha.\phi$| (pipe in number)}
 
-\lipsum[5]
+\subsection{Default: Subsection 1.7}
 
-\subsection[I.d:|Custom number and TOC entry]{Subsection with a custom number and TOC entry}
+\section[3x|]{Custom \#: Section 3x}
 
-\lipsum[6]
+\subsection{Default: Subsection 3x.1}
 
-\subsection[{{Hidden | in TOC}}]{Subsection with a hidden pipe in its TOC entry}
+\subsubsection{Default: Subsubsection 3x.1.1}
 
-\lipsum[7]
+\subsection[C$\xi$.b|]{Custom \#: Subsection C$\xi$.b (totally override)}
 
-\subsection[{{$\alpha.\phi$|}}|]{Subsection with a hidden pipe in its number}
+\subsubsection{Default: Subsubsection C$\xi$.b.1}
 
-\lipsum[8]
+\subsection{Default: Subsection 3x.3}
 
-\section[3x|]{Custom section number}
+\subsection[\thesection.$\delta$|]{Custom \#: Subsection thesection.\$delta\$ (3x.$\delta$)}
 
-\lipsum[9]
+\section{Default: Section 3 (empty components)}
 
-\subsection{Subsection inherits the number}
+\subsection[|]{Subsection \_: Both number and TOC name are empty}
 
-\subsubsection{So does the subsubsection}
+\subsection[|Subsection \_: Only the number is empty (custom)]{Subsection \_: Only the number is empty}
 
-\lipsum[10]
+\subsubsection{Subsubsection \_.1: Empties propagate properly}
 
-\subsection[C$\xi$.b|]{But it can override it}
+\subsection{Default: Subsection 3.3, next section has empty TOC}
 
-\subsubsection{Which is then followed}
+\subsection[]{Subsection 3.4 with a completely empty argument}
 
-\lipsum[11]
+\subsection[3.5|]{Subsection 3.5 with custom \# and omitted TOC}
 
-\subsection{But things go back to normal}
+\subsection{Default: Subsection 3.6, next section has empty TOC}
 
-\lipsum[12]
+\subsection[3.7| ]{Subsection 3.7 with custom \# and space in TOC}
 
-\subsection[\thesection.$\delta$|]{Or it can do something funny referencing it}
+\subsection[ |]{Subsection with a space in number only}
 
-\lipsum[13]
-
-\section{Demonstrating empty components}
-
-\lipsum[14]
-
-\subsection[|]{Both number and TOC name are empty}
-
-\lipsum[15]
-
-\subsection[|Empty number]{Only the number is empty}
-
-\subsubsection{Empty numbers propagate to subsections}
-
-\lipsum[16]
-
-\subsection[zz|]{Only the TOC name is empty}
-
-\lipsum[17]
+\subsection[3.9]{Next TOC entry completely blank}
 
 \subsection[ | ]{Empty spaces in both segments}
 
-\subsubsection{Spaces propagate, too}
+\subsubsection{Default: Subsubsection \_.1: Empties propagate}
 
-\lipsum[18]
+\subsection{Default: 3.11 Back to normal}
 
-\subsection{Everything goes back to normal}
+\section[2011|]{TODO: Long numbers are a problem in TOC}
 
-\lipsum[19]
+\appendix
 
-\section[2011|]{Long numbers are a problem in the table of contents}
+\section{Default: Appendix A}
 
 \end{document}

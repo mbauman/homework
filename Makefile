@@ -4,18 +4,21 @@ LATEXMKFLAGS:=-pdf -silent
 
 all: ${PKGNAME} doc
 doc: ${PKGNAME}.pdf
+test: classtest.pdf
 ${PKGNAME}: ${PKGNAME}.cls ${PKGNAME}.sty
 
-${PKGNAME}.cls: ${PKGNAME}.dtx ${PKGNAME}.ins
+${PKGNAME}.cls: ${PKGNAME}.dtx | ${PKGNAME}.ins
 	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
 	tex ${TEXFLAGS} ${PKGNAME}.ins
 
-${PKGNAME}.sty: ${PKGNAME}.dtx ${PKGNAME}.ins
+${PKGNAME}.sty: ${PKGNAME}.dtx | ${PKGNAME}.ins
 	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
 	tex ${TEXFLAGS} ${PKGNAME}.ins
 
-${PKGNAME}.pdf: ${PKGNAME}.cls ${PKGNAME}.dtx ${PKGNAME}.ins
-	latexmk ${LATEXMKFLAGS} ${PKGNAME}.dtx
+%.pdf: %.tex
+${PKGNAME}.pdf: %.pdf : %.dtx %.cls %.ins
+%.pdf:
+	latexmk ${LATEXMKFLAGS} $<
 	@touch ${PKGNAME}.pdf
 
 clean:
@@ -23,4 +26,4 @@ clean:
 	rm -f *.aux *.bbl *.blg *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.log \
       *.out *.toc *.fdb_latexmk *.pdfsync *.synctex.gz *.nav *.snm *.vrb 
 
-.PHONY: all doc ${PKGNAME} clean
+.PHONY: all doc ${PKGNAME} clean test

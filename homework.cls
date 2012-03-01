@@ -39,22 +39,24 @@
 
 \LoadClass[\hw@side]{article}
 \let\@@sect\@sect
-\def\@sect#1#2#3#4#5#6[#7]#8{ %
+\def\@sect#1#2#3#4#5#6[#7]#8{
   \hw@sectsplit{#1}{{#2}{#3}{#4}{#5}{#6}}[#7||]{#8}
 }
-\def\hw@sectsplit#1#2[#3|#4|#5]#6{ %
+\def\hw@sectsplit#1#2[#3|#4|#5]#6{
   \ifcsundef{hw@theorig#1}
-    {\expandafter\edef\csname hw@theorig#1\endcsname %
-      {\expandafter\expandonce\csname the#1\endcsname}}
-    {\relax}
+    { \csletcs{hw@theorig#1}{the#1}\csletcs{hw@theprev#1}{the#1} }
+    { \relax }
+  \ifcsequal{the#1}{hw@theprev#1}
+    { \relax }
+    { \csletcs{hw@theorig#1}{the#1}\csletcs{hw@theprev#1}{the#1} }
   \ifstrempty{#4#5}
   {
-    \expandafter\edef\csname the#1\endcsname %
-      {\expandafter\noexpand\csname hw@theorig#1\endcsname}
+    \csedef{the#1}{\csexpandonce{hw@theorig#1}}
     \@@sect{#1}#2[{#3}]{#6}
   }
   {
-    \expandafter\edef\csname the#1\endcsname{#3}
+    \csedef{the#1}{#3}
+    \csletcs{hw@theprev#1}{the#1}
     \ifstrempty{#4}
       {\@@sect{#1}#2[{#6}]{#6}}
       {\@@sect{#1}#2[{#4}]{#6}}
