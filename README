@@ -1,7 +1,0 @@
-This work contains a both a class and a package designed to simplify the
-authoring of schoolwork, homework and assignments. The class and package may
-be used independently of each other; the class provides some slight
-modifications to the `article' class, while the style adds commonly needed
-packages and functionalities.
-
-See homework.pdf for more information.

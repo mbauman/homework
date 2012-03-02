@@ -2,28 +2,26 @@ PKGNAME:=homework
 TEXFLAGS:=-interaction=batchmode
 LATEXMKFLAGS:=-pdf -silent
 
-all: ${PKGNAME} doc
+SOURCES:=${PKGNAME}.cls ${PKGNAME}.sty README.txt
+
+all: source doc
 doc: ${PKGNAME}.pdf
-test: classtest.pdf
-${PKGNAME}: ${PKGNAME}.cls ${PKGNAME}.sty
+test: source classtest.pdf
 
-${PKGNAME}.cls: ${PKGNAME}.dtx | ${PKGNAME}.ins
-	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
-	tex ${TEXFLAGS} ${PKGNAME}.ins
-
-${PKGNAME}.sty: ${PKGNAME}.dtx | ${PKGNAME}.ins
-	rm -f ${PKGNAME}.cls ${PKGNAME}.sty
-	tex ${TEXFLAGS} ${PKGNAME}.ins
+source: ${SOURCES}
+${SOURCES}: ${PKGNAME}.dtx
+	tex ${TEXFLAGS} $<
+	@touch $@
 
 %.pdf: %.tex
-${PKGNAME}.pdf: %.pdf : %.dtx %.cls %.ins
+${PKGNAME}.pdf: %.pdf : %.dtx
 %.pdf:
 	latexmk ${LATEXMKFLAGS} $<
-	@touch ${PKGNAME}.pdf
+	@touch ${PKGNAME}.pdf # latexmk may decide it's up-to-date w/o touching it
 
 clean:
-	rm -f *.cls *.sty *.pdf
-	rm -f *.aux *.bbl *.blg *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.log \
-      *.out *.toc *.fdb_latexmk *.pdfsync *.synctex.gz *.nav *.snm *.vrb 
+	rm -f *.cls *.sty *.pdf *.txt
+	rm -f *.aux *.bbl *.blg *.glg *.glo *.gls *.idx *.ilg *.ind *.ins *.ist \
+	  *.log *.out *.toc *.fdb_latexmk *.pdfsync *.synctex.gz *.nav *.snm *.vrb 
 
-.PHONY: all doc ${PKGNAME} clean test
+.PHONY: all doc test source clean
