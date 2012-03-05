@@ -54,7 +54,7 @@
 \patchcmd{\@maketitle}{\null\vskip 2em}{\null}{}{}
 \let\Small\footnotesize
 \let\SMALL\scriptsize
-%% Copyright (C) 2012 by Matt Bauman <mbauman@gmail.com>
+%% Copyright (c) 2012 by Matt Bauman <mbauman@gmail.com>
 %% 
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License (LPPL), either
