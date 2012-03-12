@@ -73,12 +73,11 @@
         stringstyle=\color{Purple},
         showstringspaces=false,
         tabsize=5,
-        % Put standard MATLAB functions not included in the default
-        % language here
+        % Add standard MATLAB functions not included by default here
         morekeywords={xlim,ylim,var,alpha,factorial,poissrnd,normpdf,normcdf},
-        % Put MATLAB function parameters here
+        % Add MATLAB function parameters here
         morekeywords=[2]{on, off, interp},
-        % Put user defined functions here
+        % Add user defined functions here
         % morekeywords=[3]{},
         morecomment=[l][\color{Blue}]{...},
         numbers=left,
@@ -91,7 +90,8 @@
 
 \usepackage[marginpar]{todo}
 
-\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue}
 \newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
 
 \newcommand*{\hwClass}[1]{\def\@hwClass{#1}}

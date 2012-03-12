@@ -13,10 +13,10 @@ Released under the LaTeX Project Public License v1.3c or later
 See http://www.latex-project.org/lppl.txt
 ------------------------------------------------------------------------
 This work contains a both a class and a package designed to simplify the
-authoring of schoolwork, homework and assignments. The class and package may
-be used independently of each other; the class provides some minor
-modifications to the `article` class, while the style adds commonly needed
-packages and functionalities.
+authoring of schoolwork, homework and assignments. The class and package 
+may be used independently of each other; the class provides some minor
+modifications to the base `article` class, while the style adds commonly
+needed packages and functionalities.
 
 See homework.pdf for more information.
 %</readme>
@@ -80,15 +80,15 @@ and the derived files           homework.{ins,pdf,sty,cls}
 %<class>\ProvidesClass{homework}
 %<package>\ProvidesPackage{homework}
 %<*driver>
-\ProvidesFile{homework.dtx}
+\ProvidesFile{homework.pdf}
 %</driver>
 %<*class|package|driver>
   [2012/03/01 v0.1 by Matthew J. Bauman]
 %</class|package|driver>
 %<*driver>
 \documentclass{ltxdoc}
+\usepackage{hypdoc}
 \usepackage{\jobname}
-% \usepackage[numbered]{hypdoc}
 % Logos
 \let\varepsilon\epsilon\relax
 \usepackage{mflogo}
@@ -129,7 +129,7 @@ and the derived files           homework.{ins,pdf,sty,cls}
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \GetFileInfo{homework.dtx}
+% \GetFileInfo{homework.pdf}
 %
 % \DoNotIndex{\newcommand,\newenvironment}
 % 
@@ -624,12 +624,11 @@ and the derived files           homework.{ins,pdf,sty,cls}
         stringstyle=\color{Purple},
         showstringspaces=false,
         tabsize=5,
-        % Put standard MATLAB functions not included in the default
-        % language here
+        % Add standard MATLAB functions not included by default here
         morekeywords={xlim,ylim,var,alpha,factorial,poissrnd,normpdf,normcdf},
-        % Put MATLAB function parameters here
+        % Add MATLAB function parameters here
         morekeywords=[2]{on, off, interp},
-        % Put user defined functions here
+        % Add user defined functions here
         % morekeywords=[3]{},
         morecomment=[l][\color{Blue}]{...},
         numbers=left,
@@ -644,7 +643,8 @@ and the derived files           homework.{ins,pdf,sty,cls}
 
 % \iftoggle{hw@print}
 %   {\usepackage{hyperref}}
-\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue}
 \newcommand*{\magicref}[2]{\hyperref[#2]{#1 \ref{#2}}}
 
 \newcommand*{\hwClass}[1]{\def\@hwClass{#1}}
@@ -660,19 +660,6 @@ and the derived files           homework.{ins,pdf,sty,cls}
 %    \end{macrocode}
 % 
 % \Finale
-% \obeyspaces
-% \typeout{*************************************************************}
-% \typeout{*                                                           *}
-% \typeout{* To finish the installation you have to move the following *}
-% \typeout{* file into a directory searched by TeX:                    *}
-% \typeout{*                                                           *}
-% \typeout{*     homework.cls                                          *}
-% \typeout{*     homework.sty                                          *}
-% \typeout{*                                                           *}
-% \typeout{* To produce the documentation run the file homework.dtx    *}
-% \typeout{* through LaTeX.                                            *}
-% \typeout{*                                                           *}
-% \typeout{* Happy TeXing!                                             *}
-% \typeout{*                                                           *}
-% \typeout{*************************************************************}
+% \PrintIndex
+% \PrintChanges
 \endinput
