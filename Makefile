@@ -1,6 +1,9 @@
 PKG:=homework
+
 TEXFLAGS:=-interaction=batchmode
 LATEXMKFLAGS:=-pdf -silent
+INDEXFLAGS:=-q -s gind.ist
+GLOSSFLAGS:=-q -s gglo.ist
 
 SOURCES:=${PKG}.cls ${PKG}.sty ${PKG}.ins README.txt
 
@@ -11,23 +14,24 @@ source: ${SOURCES}
 archive: source doc ${PKG}.tar.gz
 
 ${SOURCES}: ${PKG}.dtx
-	tex ${TEXFLAGS} $<
+	pdftex ${TEXFLAGS} $<
 
 %.pdf: %.tex
 	latexmk ${LATEXMKFLAGS} $<
-	@touch $@ # latexmk may decide the target is up-to-date without touching it
+
 %.pdf: %.dtx
-	latexmk ${LATEXMKFLAGS} $<
-	@touch $@
+	pdflatex ${TEXFLAGS} $<
+	makeindex ${INDEXFLAGS} -o $*.ind $*.idx
+	makeindex ${GLOSSFLAGS} -o $*.gls $*.glo
+	pdflatex ${TEXFLAGS} $<
+	pdflatex ${TEXFLAGS} $<
 
 ${PKG}.tar.gz:
 	ctanify --noauto ${PKG}.{dtx,pdf} ${SOURCES}
 
 clean:
-	rm -f *.aux *.blg *.glg *.glo *.gls *.idx *.ilg *.ind *.ist *.log  \
-	  *.out *.toc *.fdb_latexmk *.pdfsync *.synctex.gz *.nav *.snm *.vrb 
-
-cleanall: clean
 	rm -f *.cls *.sty *.pdf *.txt *.ins *.tar.gz
+	rm -f *.aux *.blg *.glg *.glo *.gls *.hd *.idx *.ilg *.ind *.ist *.log  \
+      *.out *.toc *.fdb_latexmk *.pdfsync *.synctex.gz *.nav *.snm *.vrb
 
-.PHONY: all doc test source clean cleanall
+.PHONY: all doc test source clean
