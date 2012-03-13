@@ -6,12 +6,13 @@ INDEXFLAGS:=-q -s gind.ist
 GLOSSFLAGS:=-q -s gglo.ist
 
 SOURCES:=${PKG}.cls ${PKG}.sty ${PKG}.ins README.txt
+DOC:=${PKG}.pdf
 
 all: source doc
-doc: ${PKG}.pdf
+doc: ${DOC}
 test: source classtest.pdf
 source: ${SOURCES}
-archive: source doc ${PKG}.tar.gz
+archive: ${PKG}.tar.gz
 
 ${SOURCES}: ${PKG}.dtx
 	pdftex ${TEXFLAGS} $<
@@ -26,8 +27,8 @@ ${SOURCES}: ${PKG}.dtx
 	pdflatex ${TEXFLAGS} $<
 	pdflatex ${TEXFLAGS} $<
 
-${PKG}.tar.gz:
-	ctanify --noauto ${PKG}.{dtx,pdf} ${SOURCES}
+${PKG}.tar.gz: ${PKG}.dtx ${DOC} ${SOURCES}
+	ctanify --noauto $^
 
 clean:
 	rm -f *.cls *.sty *.pdf *.txt *.ins *.tar.gz

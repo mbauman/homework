@@ -1,9 +1,13 @@
+*.sty
+*.cls
+*.ins
 *.aux
 *.bbl
 *.blg
 *.glg
 *.glo
 *.gls
+*.hd
 *.idx
 *.ilg
 *.ind
